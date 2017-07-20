@@ -1,0 +1,31 @@
+---
+title: Apache Common Study
+date: 2017-07-20 19:39:41
+tags: Java
+---
+
+# Apache Commons类库
+
+[Apache common](http://commons.apache.org/index.html)提供了很多强大的工具集，简化了Java开发人员的开发。下面是我个人一些使用心得。
+
+## 1.commons-lang3
+
+### 1.1RandomStringUtils
+
+*生成随机串*
+
+```java
+//生成随机指定长度的字符串
+RandomStringUtils.random(4);
+//生成指定字符指定长度的字符串
+RandomStringUtils.random(4,new char[]{'a', 'b', 'c', 'd'});
+//生成指定长度的数字字符串
+RandomStringUtils.randomNumeric(4);
+//生成自定长度的Alpha字母串（a-z,A-Z）
+RandomStringUtils.randomAlphabetic(4);
+//生成指定长度的Alpha字母或数字串（a-z,A-z,0-9）
+RandomStringUtils.randomAlphanumeric(4);
+//获取指定长度的Ascii值在（32-126）的字符串
+RandomStringUtils.randomAscii(4);
+```
+
