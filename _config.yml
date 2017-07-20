@@ -99,3 +99,6 @@ jsonContent:
       excerpt: false
       categories: false
       tags: true
+      
+# Place your favicon.ico to /source directory.
+favicon: /favicon.ico

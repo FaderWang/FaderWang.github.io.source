@@ -6,11 +6,11 @@ menu:
 
 # SubNav
 subnav:
-  github: "#"
+  github: "https://github.com/"
   weibo: "#"
   rss: "#"
   zhihu: "#"
-  #qq: "#"
+  qq: "127198"
   #weixin: "#"
   #jianshu: "#"
   #douban: "#"
