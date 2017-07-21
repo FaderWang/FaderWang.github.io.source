@@ -1,12 +1,11 @@
 ---
-title: Apache Common Study
+title: Apache Commons类库 
 date: 2017-07-20 19:39:41
 tags: Java
+categories: Java
 ---
 
-# Apache Commons类库
-
-[Apache common](http://commons.apache.org/index.html)提供了很多强大的工具集，简化了Java开发人员的开发。下面是我个人一些使用心得。
+[Apache common][1]提供了很多强大的工具集，简化了Java开发人员的开发。下面是我个人一些使用心得。
 
 ## 1.commons-lang3
 
@@ -28,4 +27,21 @@ RandomStringUtils.randomAlphanumeric(4);
 //获取指定长度的Ascii值在（32-126）的字符串
 RandomStringUtils.randomAscii(4);
 ```
+### 1.2StringUtils
 
+*非空判断*
+
+```
+//判断是否为null或""
+StringUtils.isNotEmpty("");
+//判断是否为null或者""(去空格)
+StringUtils.isNotBlank(" ");
+//将null或" "转换为""(空串)
+StringUtils.trimToEmpty("  ");
+//将null或""转换为null
+StringUtils.trimToNull("");
+```
+
+StringUtils分装的方法很多，这里就不一一列举，有兴趣可以[查看文档][1]
+
+[1](http://commons.apache.org/index.html)
