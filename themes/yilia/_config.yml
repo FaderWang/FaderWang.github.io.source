@@ -68,7 +68,7 @@ google_analytics: ''
 favicon: /favicon.png
 
 #你的头像url
-avatar: "https://avatars1.githubusercontent.com/u/23608743?v=4&s=400"
+avatar: /img/header.jpg
 
 #是否开启分享
 share_jia: true
@@ -99,7 +99,7 @@ style:
 # slider的设置
 slider:
   # 是否默认展开tags板块
-  showTags: false
+  showTags: true
 
 # 智能菜单
 # 如不需要，将该对应项置为false
