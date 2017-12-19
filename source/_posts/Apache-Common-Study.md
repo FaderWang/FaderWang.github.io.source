@@ -5,7 +5,7 @@ tags: Java
 categories: Java
 ---
 
-[Apache common][1]提供了很多强大的工具集，简化了Java开发人员的开发。下面是我个人一些使用心得。
+[Apache common](http://commons.apache.org/)提供了很多强大的工具集，简化了Java开发人员的开发。下面是我个人一些使用心得。
 
 ## 1.commons-lang3
 
@@ -42,6 +42,4 @@ StringUtils.trimToEmpty("  ");
 StringUtils.trimToNull("");
 ```
 
-StringUtils分装的方法很多，这里就不一一列举，有兴趣可以[查看文档][1]
-
-[1](http://commons.apache.org/index.html)
+StringUtils分装的方法很多，这里就不一一列举，有兴趣可以[查看文档](http://commons.apache.org/)
