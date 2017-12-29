@@ -52,7 +52,7 @@ public class Man implements People {
 }
 ```
 
-###4.定义日志切面类
+### 4.定义日志切面类
 
 ```java
 @Component

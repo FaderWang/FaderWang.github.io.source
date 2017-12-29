@@ -6,7 +6,7 @@ tags: java
 
 *废话不多说，直接上代码*
 
-###客户端代码
+### 客户端代码
 
 ```java
 public class Client {
@@ -80,9 +80,7 @@ public class Client {
     }
 ```
 
-
-
-###服务端代码
+###### 服务端代码
 
 ```java
 
@@ -150,7 +148,7 @@ public class Server {
 
 
 
-###服务端处理类
+###### 服务端处理类
 
 ```java
 public interface TCPHandler {
