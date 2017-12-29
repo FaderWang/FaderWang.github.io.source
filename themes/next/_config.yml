@@ -615,6 +615,7 @@ vendors:
   # https://github.com/ethantw/Han
   han:
 
+since: 2016
 
 # Assets
 css: css
