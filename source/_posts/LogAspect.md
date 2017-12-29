@@ -1,8 +1,11 @@
 ---
 title: 使用AOP实现日志切入
 date: 2017-12-29 15:24:18
-tags: java
+tags: AOP
+categories: Java
 ---
+
+[TOC]
 
 ###1.自定义Cache注解
 
