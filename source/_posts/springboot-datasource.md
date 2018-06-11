@@ -7,7 +7,7 @@ catagories: java
 
 # springboot配置多数据源，实现Dao层数据源动态切换,并用Druid替换原来的数据源
 
-## ## 1.application.yml中定义两个数据源，这里是测试环境，我们用两个账号模拟上产的主库和只读库。
+## 1.application.yml中定义两个数据源，这里是测试环境，我们用两个账号模拟上产的主库和只读库。
 
 ```yaml
 spring:
