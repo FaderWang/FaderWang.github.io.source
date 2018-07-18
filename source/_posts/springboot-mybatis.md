@@ -7,7 +7,7 @@ categories: java
 
 ### SpringBoot快速开发，使用jpa是最方便的，但是如果业务逻辑相对复杂，需要定制化sql的情况下，我们就需要使用mybatis、hibernate等框架。
 
-#### 需要用到的所有maven依赖
+#### 列出需要用到的所有maven依赖
 
 ```xml
 <dependency>
@@ -51,9 +51,9 @@ categories: java
 </dependency>
 ```
 
-#### 首先我们进行mybatis相关配置，正常情况下我们需要在resource目录下新建一个mybatis-config.xml的配置文件，进行mybatis的相关配置。
+#### 首先我们进行mybatis相关配置，正常情况下我们需要在resource目录下新建一个mybatis-config.xml的配置文件，进行mybatis一些策略的配置。
 
-> 下图一个完整的setting配置 
+> 下图是一个完整的setting配置 
 
 ```xml-dtd
 <settings>
@@ -73,13 +73,9 @@ categories: java
 </settings>
 ```
 
-这里我们可以通过application.properties配置代替mybatis-config.xml配置文件
+在Spring Boot中，我们可以application.properties配置，从而代替mybatis-config.xml配置文件
 
-![image-20180717113200791](/var/folders/fm/_8kq2mjx593dldvp1jnch3840000gn/T/abnerworks.Typora/image-20180717113200791.png)
-
-​							目录结构
-
-这里我们配置几个属性，具体的作用这里不做阐释
+这里是我配置的几个属性，具体的作用就不做阐释了
 
 ```xml
 #mybatis配置
@@ -89,7 +85,7 @@ mybatis.configuration.use-column-label=true
 mybatis.type-aliases-package=com.faderw.school.domain
 ```
 
-#### 配置数据库相关属性，我们在application.properties文件中配置datasource相关属性，*spring.dataource.type*配置数据源type,这里我们用DruidDataSource代替默认的数据源
+#### 然后配置数据库相关属性，同样也在application.properties文件中配置，*spring.dataource.type*配置数据源的实现类型,这里我们用DruidDataSource代替默认的数据源
 
 ```xml
 spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
@@ -99,7 +95,7 @@ spring.datasource.password=123456
 spring.datasource.url=jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false
 ```
 
-#### 创建一个配置类DataSourceConfig,@MapperScanz会自动扫描mapper。这里我们配置一个datasource的bean以及sqlSessionFactory的bean，@ConfigurationProperties注解将会根据prefix属性自动装配application.porperties里面的配置
+#### 创建一个配置类DataSourceConfig,@MapperScan会自动扫描包下面的类，代替@mapper注解，告诉spring这是一个mapper。然后配置一个datasource的bean以及sqlSessionFactory的bean，注意@ConfigurationProperties这个注解将会根据prefix属性自动装配application.porperties里面的配置
 
 ```java
 @Configuration
@@ -133,4 +129,4 @@ public class DataSourceConfig {
 }
 ```
 
-这里我们并没有配置事物管理器，因为springboot的自动装配会为我们默认配置DataSourceTransactionManager，我们只需要在程序入口处加上@EnableTransactionManagement开启注解事物的支持。
+这里我们并没有配置事物管理器，因为springboot的自动装配会为我们默认配置DataSourceTransactionManager，我们只需要在程序入口类加上@EnableTransactionManagement开启注解事物的支持。
