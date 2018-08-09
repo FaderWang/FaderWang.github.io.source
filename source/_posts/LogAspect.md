@@ -5,9 +5,9 @@ tags: AOP
 categories: Java
 ---
 
-如果想要在方法的某个地方输出日志，但是不想要改变原有的代码。这时候可以使用代理、或者切面（原理都是AOP），这里我们使用Aspect切面来实现日志输出。
+### 如果想要在方法的某个地方输出日志，但是不想要改变原有的代码。这时候可以使用代理、或者切面（原理都是AOP），这里我们使用Aspect切面来实现日志输出。
 
-### 1.定义Cache注解
+#### 1.定义Cache注解
 
 ```Java
 @Documented
@@ -19,7 +19,7 @@ public @interface Cache {
 }
 ```
 
-### 2.定义日志配置类
+#### 2.定义日志配置类
 
 ```java
 @Configuration
@@ -29,7 +29,7 @@ public class PeopleConfig {
 }
 ```
 
-### 3.定义People接口与Man实现类
+#### 3.定义People接口与Man实现类
 
 ```Java
 public interface People {
@@ -52,7 +52,7 @@ public class Man implements People {
 }
 ```
 
-### 4.定义日志切面类
+#### 4.定义日志切面类
 
 ```java
 @Component
@@ -80,7 +80,7 @@ public class LogAspect {
 }
 ```
 
-### 5.测试运行结果
+#### 5.测试运行结果
 
 ```
 args:["FaderWang"]
