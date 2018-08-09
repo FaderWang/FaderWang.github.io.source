@@ -2,11 +2,11 @@
 title: 使用java NIO实现一个echo server
 date: 2017-12-19 19:34:13
 tags: echo server
-categories: IO
+categories: IO 
 ---
 
-*使用Java NIO来实现一个简单的echo server服务器，废话不多说，直接上代码*
-
+使用Java NIO来实现一个简单的echo server服务器，以代码为主
+<!--more-->
 ### 客户端代码
 
 ```java

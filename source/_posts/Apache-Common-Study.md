@@ -6,11 +6,9 @@ categories: Java
 ---
 
 [Apache common](http://commons.apache.org/)提供了很多强大的工具集，简化了Java开发人员的开发。下面是我个人一些使用心得。
-
+<!--more-->
 ### 介绍下**commons-lang3** jar类库下的一些常用工具集
-
 ### *RandomStringUtils*
-
 > 生成随机串
 
 ```java

@@ -5,11 +5,10 @@ tags: AOP
 categories: Java
 toc: true
 comments: true
+description: 如果想要在方法的某个地方输出日志，但是不想要改变原有的代码。这时候可以使用代理、或者切面（原理都是AOP），这里我们使用Aspect切面来实现日志输出。
 ---
 
-*如果想要在方法的某个地方输出日志，但是不想要改变原有的代码。这时候可以使用代理、或者切面（原理都是AOP），这里我们使用Aspect切面来实现日志输出。*
-
-#### 定义Cache注解
+#### 定义`@Cache`注解
 
 ```Java
 @Documented

@@ -2,16 +2,16 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 # Site
-title: tango
-subtitle:
+title: Tango
+subtitle: 探戈
 description: 最不稀罕的东西：不在乎人的赞美，不喜欢人的殷勤，还有你无差别对待的好
-author: FaderWang
+author: FaderW
 language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: www.google.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
