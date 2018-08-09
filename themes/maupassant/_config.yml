@@ -79,10 +79,10 @@ menu:
 
 widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts, rencent_comments and links.
   - search
-  - 分类
-  - 标签
-  - 最近发表
-  - 最近评论
+  - category
+  - tag
+  - recent_posts
+  - recent_comments
   - links
 
 links:
