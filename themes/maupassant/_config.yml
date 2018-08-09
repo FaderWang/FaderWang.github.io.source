@@ -61,42 +61,45 @@ post_copyright:
   copyright_text: ## Your copyright text, e.g. The author owns the copyright, please indicate the source reproduced.
 
 menu:
-  - page: home
-    directory: .
+  - page: 主页
+    directory: /
     icon: fa-home
-  - page: archive
-    directory: archives/
-    icon: fa-archive
-  - page: about
-    directory: about/
+  - page: 归档
+    directory: /archives/
+    icon: fa-book
+  - page: 关于
+    directory: /about/
     icon: fa-user
-  - page: rss
-    directory: atom.xml
-    icon: fa-rss
+  - page: 历史
+    directory: /history/
+    icon: fa-history
+  # - page: 订阅
+  #   directory: atom.xml
+  #   icon: fa-rss
 
 widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts, rencent_comments and links.
   - search
-  - category
-  - tag
-  - recent_posts
-  - recent_comments
+  - 分类
+  - 标签
+  - 最近发表
+  - 最近评论
   - links
 
 links:
-  - title: site-name1
+  - title: github
     url: http://www.example1.com/
-  - title: site-name2
+  - title: 知乎
     url: http://www.example2.com/
-  - title: site-name3
-    url: http://www.example3.com/
+  - title: 简书
+    url: https://www.jianshu.com/u/a7938ba99b25
 
 timeline:
   - num: 1
-    word: 2014/06/12-Start
+    word: 2016/10/12-Start
   - num: 2
-    word: 2014/11/29-XXX
+    word: 2016/10/13-改用next主题
   - num: 3
-    word: 2015/02/18-DDD
+    word: 2017/12/10-第三次改版
   - num: 4
     word: More
 
