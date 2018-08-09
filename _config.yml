@@ -2,7 +2,7 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 # Site
-title: CloudSay
+title: tango
 subtitle:
 description: 最不稀罕的东西：不在乎人的赞美，不喜欢人的殷勤，还有你无差别对待的好
 author: FaderWang
@@ -71,7 +71,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: maupassant-hexo
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
