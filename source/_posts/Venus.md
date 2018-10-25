@@ -1,7 +1,8 @@
 ---
 title: Venus
 date: 2018-08-25 21:35:39
-tags: spider、framework
+tags: - spider
+      - framework
 categories: Java
 toc: true
 description: 轻量级爬虫框架Venus,基于组件的形式，可扩展。

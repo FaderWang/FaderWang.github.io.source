@@ -7,7 +7,7 @@ toc: true
 description: 解决Http POST请求request.getInputStream()数据为空的问题
 ---
 
-### *post*方法 request.getInputStream()为空解惑
+*post*方法 request.getInputStream()为空解惑
 
 
 
