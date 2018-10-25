@@ -4,9 +4,9 @@
 # Site
 title: Tango
 subtitle: 探戈
-description: 最不稀罕的东西：不在乎人的赞美，不喜欢人的殷勤，还有你无差别对待的好
+description: 花有重开日，人无再少年
 author: FaderW
-language: zh-CN
+language: zh-Hans
 timezone:
 
 # URL
@@ -71,7 +71,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: maupassant
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
