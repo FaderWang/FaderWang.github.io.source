@@ -5,8 +5,8 @@ tags: NIO
 categories: Java 
 ---
 
-使用Java NIO来实现一个简单的echo server服务器，以代码为主
-<!--more-->
+Java NIO可以让你非阻塞的使用IO，从而可以代替原有的IO API。
+<!-- more -->
 ### 客户端代码
 
 ```java

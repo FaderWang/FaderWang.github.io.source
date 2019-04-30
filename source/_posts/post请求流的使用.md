@@ -4,7 +4,6 @@ date: 2018-09-21 14:01:50
 tags: SpringBoot
 categories: Java
 toc: true
-description: 解决Http POST请求request.getInputStream()数据为空的问题
 ---
 
 *post*方法 request.getInputStream()为空解惑

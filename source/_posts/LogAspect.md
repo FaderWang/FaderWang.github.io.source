@@ -5,9 +5,9 @@ tags: AOP
 categories: Java
 toc: true
 comments: true
-description: 如果想要在方法的某个地方输出日志，但是不想要改变原有的代码。这时候可以使用代理、或者切面（原理都是AOP），这里我们使用Aspect切面来实现日志输出。
 ---
-
+在Spring中大量的用到了AOP,比如@Transactional.这里我们写一个简单的Demo,使用AOP实现日志的切入。
+<!-- more -->
 #### 定义`@Cache`注解
 
 ```Java
