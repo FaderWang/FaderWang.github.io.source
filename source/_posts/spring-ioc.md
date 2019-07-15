@@ -1,7 +1,8 @@
 ---
 title: Spring源码解析之IoC(一)
 date: 2019-07-11 16:41:50
-tags: ioc
+tags: - ioc
+	  -	spring	
 categories: Java
 top: True
 
@@ -105,58 +106,58 @@ protected Resource getResourceByPath(String path) {
 
 ```java
 @Override
-	public void refresh() throws BeansException, IllegalStateException {
-		synchronized (this.startupShutdownMonitor) {
-			// Prepare this context for refreshing.
-			prepareRefresh();
-			// Tell the subclass to refresh the internal bean factory.
-			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
-			// Prepare the bean factory for use in this context.
-			prepareBeanFactory(beanFactory);
-			try {
-				// Allows post-processing of the bean factory in context subclasses.
-				postProcessBeanFactory(beanFactory);
-				// Invoke factory processors registered as beans in the context.
-				invokeBeanFactoryPostProcessors(beanFactory);
-				// Register bean processors that intercept bean creation.
-				registerBeanPostProcessors(beanFactory);
-				// Initialize message source for this context.
-				initMessageSource();
-				// Initialize event multicaster for this context.
-				initApplicationEventMulticaster();
-				// Initialize other special beans in specific context subclasses.
-				onRefresh();
-				// Check for listener beans and register them.
-				registerListeners();
-				// Instantiate all remaining (non-lazy-init) singletons.
-				finishBeanFactoryInitialization(beanFactory);
-				// Last step: publish corresponding event.
-				finishRefresh();
-			}
+public void refresh() throws BeansException, IllegalStateException {
+  synchronized (this.startupShutdownMonitor) {
+    // Prepare this context for refreshing.
+    prepareRefresh();
+    // Tell the subclass to refresh the internal bean factory.
+    ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
+    // Prepare the bean factory for use in this context.
+    prepareBeanFactory(beanFactory);
+    try {
+      // Allows post-processing of the bean factory in context subclasses.
+      postProcessBeanFactory(beanFactory);
+      // Invoke factory processors registered as beans in the context.
+      invokeBeanFactoryPostProcessors(beanFactory);
+      // Register bean processors that intercept bean creation.
+      registerBeanPostProcessors(beanFactory);
+      // Initialize message source for this context.
+      initMessageSource();
+      // Initialize event multicaster for this context.
+      initApplicationEventMulticaster();
+      // Initialize other special beans in specific context subclasses.
+      onRefresh();
+      // Check for listener beans and register them.
+      registerListeners();
+      // Instantiate all remaining (non-lazy-init) singletons.
+      finishBeanFactoryInitialization(beanFactory);
+      // Last step: publish corresponding event.
+      finishRefresh();
+    }
 
-			catch (BeansException ex) {
-				if (logger.isWarnEnabled()) {
-					logger.warn("Exception encountered during context initialization - " +
-							"cancelling refresh attempt: " + ex);
-				}
+    catch (BeansException ex) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("Exception encountered during context initialization - " +
+                    "cancelling refresh attempt: " + ex);
+      }
 
-				// Destroy already created singletons to avoid dangling resources.
-				destroyBeans();
+      // Destroy already created singletons to avoid dangling resources.
+      destroyBeans();
 
-				// Reset 'active' flag.
-				cancelRefresh(ex);
+      // Reset 'active' flag.
+      cancelRefresh(ex);
 
-				// Propagate exception to caller.
-				throw ex;
-			}
+      // Propagate exception to caller.
+      throw ex;
+    }
 
-			finally {
-				// Reset common introspection caches in Spring's core, since we
-				// might not ever need metadata for singleton beans anymore...
-				resetCommonCaches();
-			}
-		}
-	}
+    finally {
+      // Reset common introspection caches in Spring's core, since we
+      // might not ever need metadata for singleton beans anymore...
+      resetCommonCaches();
+    }
+  }
+}
 ```
 我们跳到`refresh()`方法中，这里我们先看第二步`obtainFreshBeanFactory()`方法，这里是创建容器对象的过程。再跳到`obtainFreshBeanFactory()`中，具体的过程在`refreshBeanFactory()`中。
 ```java
@@ -173,24 +174,24 @@ protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
 
 ```java
 @Override
-	protected final void refreshBeanFactory() throws BeansException {
-		if (hasBeanFactory()) {
-			destroyBeans();
-			closeBeanFactory();
-		}
-		try {
-			DefaultListableBeanFactory beanFactory = createBeanFactory();
-			beanFactory.setSerializationId(getId());
-			customizeBeanFactory(beanFactory);
-			loadBeanDefinitions(beanFactory);
-			synchronized (this.beanFactoryMonitor) {
-				this.beanFactory = beanFactory;
-			}
-		}
-		catch (IOException ex) {
-			throw new ApplicationContextException("I/O error parsing bean definition source for " + getDisplayName(), ex);
-		}
-	}
+protected final void refreshBeanFactory() throws BeansException {
+  if (hasBeanFactory()) {
+    destroyBeans();
+    closeBeanFactory();
+  }
+  try {
+    DefaultListableBeanFactory beanFactory = createBeanFactory();
+    beanFactory.setSerializationId(getId());
+    customizeBeanFactory(beanFactory);
+    loadBeanDefinitions(beanFactory);
+    synchronized (this.beanFactoryMonitor) {
+      this.beanFactory = beanFactory;
+    }
+  }
+  catch (IOException ex) {
+    throw new ApplicationContextException("I/O error parsing bean definition source for " + getDisplayName(), ex);
+  }
+}
 ```
 
 我们来看一下`refreshBeanFactory()`这个方法，主要做了两件事：创建了一个`DefaultListableBeanFactory`类型的容器，然后以该容器对象为入参调用`loadBeanDefinitions(beanFactory)`。这个方法也是一个模板方法，由具体的子类实现。因为上面我们是以xml的资源为例，所以我们直接看`AbstractXmlApplicationContext`中的实现
@@ -222,7 +223,7 @@ protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansE
 		if (configLocations != null) {
 			reader.loadBeanDefinitions(configLocations);
 		}
-	}
+}
 ```
 
 方法很简单，创建一个`XmlBeanDefinitionReader`的对象，初始化相应参数，然后具体的资源获取就委托给该reader对象。
@@ -242,7 +243,7 @@ public int registerBeanDefinitions(Document doc, Resource resource) throws BeanD
 		int countBefore = getRegistry().getBeanDefinitionCount();
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
 		return getRegistry().getBeanDefinitionCount() - countBefore;
-	}
+}
 ```
 
 下面其实就是我们的解析步骤了
@@ -284,7 +285,7 @@ protected void doRegisterBeanDefinitions(Element root) {
 		postProcessXml(root);
 
 		this.delegate = parent;
-	}
+}
 
 protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate delegate) {
 		if (delegate.isDefaultNamespace(root)) {
@@ -305,7 +306,7 @@ protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate d
 		else {
 			delegate.parseCustomElement(root);
 		}
-	}
+}
 ```
 
 具体的逻辑都在`DefaultBeanDefinitionDocumentReader`对象中。这里讲解一下，主要是递归遍历节点，对不同的标签进行相应的解析，最后是解析`<Bean>`标签，每个`Bean`标签对应一个BeanDefinition对象。这里的标签解析同样会委托给一个delegate对象：
@@ -326,7 +327,7 @@ protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate d
 			// Send registration event.
 			getReaderContext().fireComponentRegistered(new BeanComponentDefinition(bdHolder));
 		}
-	}
+}
 ```
 
 调用`parseBeanDefinitionElement`进行解析，得到一个BeanDefinition的包装类对象`BeanDefinitionHolder`。解析完成后就是保存我们的beanDefintion对象，也就是注册。
@@ -495,7 +496,7 @@ protected <T> T doGetBean(
 			}
 		}
 		return (T) bean;
-	}
+}
 ```
 
 我们看到主要逻辑在doGetBean方法中。可以看到该方法比较复杂，这里会进行单例、原型不同类型bean的处理，循环依赖的解决，依赖注入等。因为篇幅问题，这里我们简单看一下流程，而这些具体的过程我会在下一篇文章继续分析。
@@ -602,7 +603,7 @@ protected Object doCreateBean(final String beanName, final RootBeanDefinition mb
 		}
 
 		return exposedObject;
-	}
+}
 ```
 
 首先如果是单例的话，会先从缓存中获取，如果没有的话，最后会调用createBean创建，
