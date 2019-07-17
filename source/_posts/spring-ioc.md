@@ -1,8 +1,9 @@
 ---
 title: Spring源码解析之IoC(一)
 date: 2019-07-11 16:41:50
-tags: - ioc
-	  -	spring	
+tags:
+ - ioc
+ - spring	
 categories: Java
 top: True
 
