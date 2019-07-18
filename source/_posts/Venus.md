@@ -10,22 +10,18 @@ description: 轻量级爬虫框架Venus,基于组件的形式，可扩展。
 ---
 
 ## 轻量级爬虫框架Venus
-
 ### 核心组件
-
 - **Downloader**(网页下载器)
 - **Spider**(爬虫处理器)
 - **Scheduler**(调度器)
 - **Parser**(网页解析器)
 - **Pipline**(数据处理器)
 - **Engine**(流转引擎)
+<!-- more -->
 
 ### 具体介绍
-
-#### **Downloader**
-
+#### Downloader
 网页下载器，顾名思义，就是从网络上下载数据，也就是爬虫的根本事件。给定一个或一组url,进行http请求，获取我们想要的数据（json、html、xml等）。而编写http请求的过程往往是重复的，所以应当进行封装以通用。
-
 ```java
 public class Downloader implements Runnable{
 
@@ -63,10 +59,8 @@ public class Downloader implements Runnable{
 
 一个Downloader就是一个线程,`Request`对象封装了请求的信息，包括url、header等，请求完后，获取一个包含了返回数据的流，这里不作处理，直接构造一个`response`对象，然后压入到`Scheduler`（调取器）的返回队列中去。交给后续的爬虫处理器以及解析器来处理。
 
-#### **Scheduler**
-
+#### Scheduler
 调取器，就是调度请求与返回的，在解析器与下载器之间进行流转，解析器解析新的url加入请求队列中，调度器再生成新的下载器进行下载。
-
 ```java
 private BlockingQueue<Request> pending = Queues.newLinkedBlockingQueue();
 private BlockingQueue<Response> processed = Queues.newLinkedBlockingQueue();
@@ -74,10 +68,8 @@ private BlockingQueue<Response> processed = Queues.newLinkedBlockingQueue();
 
 Scheduler中有两个队列，待爬取的Request和已爬取的Response。Scheduler提供入队和出队操作，供其他组件进行调用。
 
-#### **Spider**
-
+#### Spider
 爬虫处理器，用于对爬取的数据进行处理，比如说入库、写文件等。
-
 ```java
 public abstract class Spider {
 
@@ -175,10 +167,8 @@ public abstract class Spider {
 - method-parse 抽象方法，子类实现该方法定义自己的解析操作
 - param-pipeline 管道集合，进行数据处理的类，类似管道
 
-#### **Engine**
-
+#### Engine
 整个爬虫流程的核心控制器，流转引擎
-
 ```java
 public class VenusEngine {
 
@@ -266,15 +256,12 @@ public class VenusEngine {
     }
 }
 ```
-
 流转引擎主要分为以下几个步骤：
-
 1. 遍历spider集合，构建request，压入调度器，同时消费爬虫启动事件。
 2. 开启一个线程来专门从调取器中获取待处理的request，创建相应的下载器去下载。
 3. 消费response,这里分为两步parser和pipeline，解析和处理。
 
-#### **Parser**
-
+#### Parser
 网页解析器，对元数据进行解析，提取我们所需的信息，转换成对应的对象。
 
 ```java
@@ -286,11 +273,8 @@ public interface Parser<T> {
 ```
 
 实现该方法编写自己的解析逻辑
-
-#### **Pipeline**
-
+#### Pipeline
 数据处理器，pipeline有管道的意思，解析器完成解析后，把解析的结果扔进数据处理管道中进行处理。是入库，写文件还是打印等等。
-
 ```java
 public interface Pipeline<T> {
 

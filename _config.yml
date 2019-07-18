@@ -6,7 +6,7 @@ title: Tango
 subtitle: 探戈
 description: 花有重开日，人无再少年
 author: FaderW
-language: zh-Hans
+language: zh-CN
 timezone:
 
 # URL
@@ -39,7 +39,7 @@ future: true
 highlight:
   enable: true
   line_number: false
-  auto_detect: true
+  auto_detect: false
   tab_replace:
   
 # Home page setting
@@ -48,13 +48,13 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 10
+  per_page: 5
   order_by: -date
   
 # Category & Tag
 default_category: uncategorized
-category_map:
-tag_map:
+category_map: Categories
+tag_map: Tags
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -71,7 +71,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+theme: icarus
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

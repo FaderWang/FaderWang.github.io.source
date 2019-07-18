@@ -6,20 +6,13 @@ categories: Java
 toc: true
 ---
 
-*post*方法 request.getInputStream()为空解惑
-
-
-
 #### 前言 
-
-在SpringMVC web应用中，对于一个rest接口，获取请求参数我们一般使用`@requestParam`、`@requestBody`等注解 。对于表单类型的请求参数，有一下几种获取方式
-
-1. @requestParam注解方式
+在SpringMVC web应用中，对于一个rest接口，获取请求参数我们一般使用`@requestParam`、`@requestBody`等注解 。对于表单类型的请求参数，有一下几种获取方式：
+1. requestParam注解方式
 2. request.getParameter(String name)
 3. request.getInputStream()
-
 前两种方式其实是一种方式，@requestParam底层就是利用request.getParameter的原理。这两种方式有一个弊端就是只能一个个获取，而且必须知道对方传过来的参数的key值，如果想要一次性获取，可以使用request.getInputStream方法获取一个inputStream对象，然后读取流里面的数据。
-
+<!-- more -->
 ```html
 //获取到的数据格式key=value以‘&’分隔的形式
 age=20&name=faderw
