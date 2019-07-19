@@ -172,12 +172,11 @@ widgets:
         # links:
         #     Hexo: 'https://hexo.io'
         #     PPOffice: 'https://github.com/ppoffice'
-    -
-        # Widget name
-        type: tagcloud
-        # Where should the widget be placed, left or right
-        position: right
-
+    # -
+    #     # Widget name
+    #     type: tagcloud
+    #     # Where should the widget be placed, left or right
+    #     position: right
     -
         # Widget name
         type: tag
