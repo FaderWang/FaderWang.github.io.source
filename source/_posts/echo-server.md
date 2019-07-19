@@ -5,7 +5,7 @@ tags: NIO
 categories: Java 
 ---
 
-Java NIO可以让你非阻塞的使用IO，从而可以代替原有的IO API。
+> Java NIO可以让你非阻塞的使用IO，从而可以代替原有的IO API，提高并发性能。
 <!-- more -->
 ### 客户端代码
 

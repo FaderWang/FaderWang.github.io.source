@@ -10,13 +10,21 @@ screen-fullhd = 1472px
  *       Override CSS Framework
  * --------------------------------- */
 html
-    font-size: 14px
+    font-size: 12px
 
 body
-    background-color: #f7f7f7
+    background-color: #F7F7F7
 
 body, button, input, select, textarea
     font-family: family-sans
+
+button
+    font-family: family-sans
+    background-color: #00a99d
+
+a {
+    color: #00a99d
+}
 
 @media screen and (min-width: screen-widescreen)
     .is-1-column .container
@@ -51,11 +59,12 @@ body, button, input, select, textarea
 
 .tag
     &.is-grey
-        background: #e7e7e7
+        background: #00A99D
 
 .card
+    background-color: white
     border-radius: 4px
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05), 0 0 1px rgba(0,0,0,0.1)
+    box-shadow: 0 4px 10px rgba(255,255,255,1), 0 0 1px rgba(255,255,255,1)
     & + .card,
     & + .column-right-shadow
         margin-top: 1.5rem
@@ -114,6 +123,7 @@ img.thumbnail
 
 .footer
     background: white
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 1)
     .field
         .button
             background: transparent
@@ -179,6 +189,14 @@ img.thumbnail
             max-width: 50%
             font-size: 1.15rem
             position: relative
+
+    .post-copyright {
+        margin: 2em 0 0;
+        padding: 0.5em 1em;
+        border-left: 3px solid #00a99d;
+        background-color: #ff935700;
+        list-style: none;
+    }
 
 .rtl
      direction: rtl
@@ -296,13 +314,13 @@ img.thumbnail
 .has-link-black-ter
     transition: 0.2s ease
     &:hover
-        color: hsl(217, 71%, 53%) !important
+        color: #00a99d !important
 
 .has-link-grey
-    color: hsl(0, 0%, 48%) !important
+    color: #00a99d !important
 
 .has-link-black-ter
-    color: hsl(0, 0%, 14%) !important
+    color: #00a99d !important
 
 @media screen and (max-width: screen-tablet - 1)
     .has-text-centered-mobile
@@ -386,7 +404,7 @@ figure.highlight
 
         a
             float: right
-            color: #9a9a9a
+            color: #00a99d
 
     .gutter
         text-align: right

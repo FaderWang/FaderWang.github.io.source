@@ -5,18 +5,20 @@ tags:
  - ioc
  - spring	
 categories: Java
+thumbnail: /thumbnails/picjumbo.jpg
 toc: true
 top: true
 
 ---
 
-IOC、AOP是Spring的两大核心，通过IOC(依赖注入)，Spring容器为我们管理程序中的java bean，省去了开发人员很多繁琐工作。
-
-## BeanFactory和ApplicationContext
-在Spring IOC容器设计中，分为了两个主要的容器系列，`BeanFactory`的简单容器系列以及`ApplicationContext`应用上下文的高级容器系列。而`BeanFactory`作为所有容器的基类，定义了`getBean()`等最基本的方法，抽象出容器的概念。
+> IOC、AOP是Spring的两大核心，通过IOC(依赖注入)，Spring容器为我们管理程序中的java bean，省去了开发人员很多繁琐工作。研究Spring的源码有助于我们更深入的理解一些编程思想。但是Spring的IOC源码比较复杂（复杂并不是难），看起来需要有很大的耐心，本文就让我们一步步耐心的来做分析。
 <!-- more -->
 
-`BeanFactory`源码：
+## BeanFactory和ApplicationContext
+在Spring IOC容器设计中，分为了两个主要的容器系列，BeanFactory的简单容器系列以及ApplicationContext应用上下文的高级容器系列。而BeanFactory作为所有容器的基类，定义了getBean()等最基本的方法，抽象出容器的概念。
+
+
+BeanFactory源码：
 
 ```java
 public interface BeanFactory {
@@ -35,40 +37,41 @@ public interface BeanFactory {
 ```
 
 ## 容器关系分析
-
 Spring中容器的继承关系非常复杂，每个容器的定义与分工非常明确，这里我们先认识一下几个重要的容器
 
 ![](http://ww1.sinaimg.cn/large/e3ea9f2dgy1g4w0cfgx9aj21qw0ykaci.jpg)
 
 ### BeanFacotry的一些扩展接口
-其实这些容器一般可以从它们的名字就能猜出来各自的作用
-
+其实这些容器一般可以从它们的名字就能猜出来各自的作用:
 - ListableBeanFactory：可列表的，意思是扩展了容器对bean批量的操作
-- HierarchicalBeanFactory：层级的，定义了`getParentBeanFactory()`方法，引入了父子容器的概念
-- ConfigurableBeanFactory：继承`HierarchicalBeanFactory`，官方解释是这个扩展接口只是为了允许框架-内部的即插即用，以及对bean工厂配置方法的特殊访问。意思就是主要方便框架内部使用的，稍作了解即可。
+- HierarchicalBeanFactory：层级的，定义了getParentBeanFactory()方法，引入了父子容器的概念
+- ConfigurableBeanFactory：继承HierarchicalBeanFactory，官方解释是这个扩展接口只是为了允许框架-内部的即插即用，以及对bean工厂配置方法的特殊访问。意思就是主要方便框架内部使用的，稍作了解即可。
 -  ConfigurableListableBeanFactory：继承上面三个直接子接口，主要也是为了内部框架的使用
 
 ### 重要的实现类
-1. AbstractAutowireCapableBeanFactory：该抽象类实现了bean的创建以及属性注入的功能，以及`aware`接口、`InitializingBean`等Spring接口功能逻辑的实现
-2. DefaultListableBeanFactory：扩展了上面`ConfigurableListableBeanFactory`和`AbstractAutowireCapableBeanFactory`同时提供了最简单的容器实现，从而它也成为了一个最基本的IOC容器。其他IOC容器，比如说`XmlBeanFacotry`都是在这个简单容器的基础上进行相应的扩展。
+1. AbstractAutowireCapableBeanFactory：该抽象类实现了bean的创建以及属性注入的功能，以及Aware接口、InitializingBean接口等Spring扩展功能逻辑的实现
+2. DefaultListableBeanFactory：扩展了上面ConfigurableListableBeanFactory和AbstractAutowireCapableBeanFactory同时提供了最简单的容器实现，从而它也成为了一个最基本的IOC容器。其他IOC容器，比如说XmlBeanFacotry都是在这个简单容器的基础上进行相应的扩展。
 
 以上的容器继承关系的分析有助于我们下面分析容器的启动流程，磨刀不误砍柴工。
 
 ## IOC容器的初始化
 正常来说，一个IOC容器的完全启动分两步，容器的初始化以及Bean的初始化。但这并不是绝对，我们可以通过设置bean的lazy-init属性来控制bean的初始化时间，使得bean在容器初始化过程中就进行初始化。这里我们先忽略lazy-init属性，假设两个的初始化是分开的。首先来看IOC容器的初始化过程。
 
-IOC容器的初始化通过调用`refresh()`，这是IOC容器的核心方法，通过`refresh()`触发了一系列容器的初始化操作。这里面其实主要干了三件事情：bean资源的定位、beanDefinition的解析和注册。
+IOC容器的初始化通过调用refresh()，这是IOC容器的核心方法，通过refresh()触发了一系列容器的初始化操作。这里面其实主要干了三件事情：bean资源的定位、beanDefinition的解析和注册。
 
 >BeanDefinition是Spring中对bean的一种抽象，其实就是bean在IOC容器中的表现形式。是Spring中定义的一种核心数据结构，依赖注入等功能都是围绕对BeanDefnition的处理来完成的。
 
 ### BeanDefinition资源定位
 也就是Resource的定位，它由ResourceLoader通过统一的Resource接口来完成。Spring中已经为我们封装了很多resource，比如ClassPathResource。这里我们不做详解。
+
 ```java
 ClassPathResource resource = new ClassPathResource("beans.xml");
 ```
-创建一个类路径下定位xml文件的resource，Spring就会去类路径下寻找BeanDefinition定义的信息，注意这里的resource并不能给`DefaultListableBeanFactory`直接使用，而是通过`BeanDefinitionReader`来完成读取。
 
-接着我们以一个常用的实现`FileSystemXmlApplicationContext`来分析Resource的定位过程。
+创建一个类路径下定位xml文件的resource，Spring就会去类路径下寻找BeanDefinition定义的信息，注意这里的resource并不能给`DefaultListableBeanFactory`直接使用，而是通过BeanDefinitionReader来完成读取。
+
+接着我们以一个常用的实现FileSystemXmlApplicationContext来分析Resource的定位过程。
+
 ```java
 public FileSystemXmlApplicationContext(String[] configLocations, boolean refresh, ApplicationContext parent)
         throws BeansException {
@@ -88,19 +91,19 @@ protected Resource getResourceByPath(String path) {
 }
 ```
 
-`FileSystemXmlApplicationContext`内部的代码很简单，通过构造方法传入的locations设置资源路径，然后调用refresh()方法，启动容器初始化过程。`getResourceByPath`是一个模板方法，与各个类如何加载xml文件的bean有关，每个类定义自己的资源获取方式，由ResourceLoader在getResource时调用。
+FileSystemXmlApplicationContext内部的代码很简单，通过构造方法传入的locations设置资源路径，然后调用refresh()方法，启动容器初始化过程。getResourceByPath是一个模板方法，与各个类如何加载xml文件的bean有关，每个类定义自己的资源获取方式，由ResourceLoader在getResource时调用。
 
-`refresh()`方法的实现在`AbstractApplicationContext`中
+refresh()方法的实现在AbstractApplicationContext中
 
 ```java
 @Override
 public void refresh() throws BeansException, IllegalStateException {
   synchronized (this.startupShutdownMonitor) {
-    // Prepare this context for refreshing.
+    // 准备容器的上下文
     prepareRefresh();
-    // Tell the subclass to refresh the internal bean factory.
+    // 告诉子类去refresh内部的容器
     ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
-    // Prepare the bean factory for use in this context.
+    // 准备上下文容器
     prepareBeanFactory(beanFactory);
     try {
       // Allows post-processing of the bean factory in context subclasses.
@@ -121,9 +124,7 @@ public void refresh() throws BeansException, IllegalStateException {
       finishBeanFactoryInitialization(beanFactory);
       // Last step: publish corresponding event.
       finishRefresh();
-    }
-
-    catch (BeansException ex) {
+    } catch (BeansException ex) {
       if (logger.isWarnEnabled()) {
         logger.warn("Exception encountered during context initialization - " +
                     "cancelling refresh attempt: " + ex);
@@ -137,9 +138,7 @@ public void refresh() throws BeansException, IllegalStateException {
 
       // Propagate exception to caller.
       throw ex;
-    }
-
-    finally {
+    } finally {
       // Reset common introspection caches in Spring's core, since we
       // might not ever need metadata for singleton beans anymore...
       resetCommonCaches();
@@ -147,7 +146,8 @@ public void refresh() throws BeansException, IllegalStateException {
   }
 }
 ```
-我们跳到`refresh()`方法中，这里我们先看第二步`obtainFreshBeanFactory()`方法，这里是创建容器对象的过程。再跳到`obtainFreshBeanFactory()`中，具体的过程在`refreshBeanFactory()`中。
+我们跳到refresh()方法中，这里我们先看第二步obtainFreshBeanFactory()方法，这里是创建容器对象的过程。再跳到obtainFreshBeanFactory()中，具体的过程在refreshBeanFactory()中。
+
 ```java
 protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
 		refreshBeanFactory();
@@ -156,9 +156,10 @@ protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
 			logger.debug("Bean factory for " + getDisplayName() + ": " + beanFactory);
 		}
 		return beanFactory;
-	}
+}
 ```
-`refreshBeanFactory()`是一个抽象方法，我们看`AbstractRefreshableApplicationContext`中的实现
+
+refreshBeanFactory()是一个抽象方法，我们看AbstractRefreshableApplicationContext中的实现
 
 ```java
 @Override
@@ -182,7 +183,7 @@ protected final void refreshBeanFactory() throws BeansException {
 }
 ```
 
-我们来看一下`refreshBeanFactory()`这个方法，主要做了两件事：创建了一个`DefaultListableBeanFactory`类型的容器，然后以该容器对象为入参调用`loadBeanDefinitions(beanFactory)`。这个方法也是一个模板方法，由具体的子类实现。因为上面我们是以xml的资源为例，所以我们直接看`AbstractXmlApplicationContext`中的实现
+我们来看一下refreshBeanFactory()这个方法，主要做了两件事：创建了一个DefaultListableBeanFactory类型的容器，然后以该容器对象为入参调用loadBeanDefinitions(beanFactory)。这个方法也是一个模板方法，由具体的子类实现。因为上面我们是以xml的资源为例，所以我们直接看AbstractXmlApplicationContext中的实现
 
 ```java
 @Override
@@ -190,9 +191,9 @@ protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throw
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-		// Configure the bean definition reader with this context's
-		// resource loading environment.
-			 		beanDefinitionReader.setEnvironment(this.getEnvironment());
+		// 使用上下文参数配置beanDefinitionReader
+		// 加载环境变量
+		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		beanDefinitionReader.setResourceLoader(this);
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
@@ -214,9 +215,9 @@ protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansE
 }
 ```
 
-方法很简单，创建一个`XmlBeanDefinitionReader`的对象，初始化相应参数，然后具体的资源获取就委托给该reader对象。
+方法很简单，创建一个XmlBeanDefinitionReader的对象，初始化相应参数，然后具体的资源获取就委托给该reader对象。
 
-我们进入`XmlBeanDefinitionReader`的源码中，根据调用链一步步找到我们具体的加载方法，这里是`doLoadBeanDefinitions()`
+我们进入XmlBeanDefinitionReader的源码中，根据调用链一步步找到我们具体的加载方法，这里是doLoadBeanDefinitions()
 
 ```java
 Document doc = doLoadDocument(inputSource, resource);
@@ -238,7 +239,7 @@ public int registerBeanDefinitions(Document doc, Resource resource) throws BeanD
 
 ### BeanDefinition的解析
 
-首先会创建一个DocumentReader对象，然后具体的register逻辑就委托给该对象。`BeanDefinitionDocumentReader`是一个接口，这里使用的是Spring的默认实现类`DefaultBeanDefinitionDocumentReader`
+首先会创建一个DocumentReader对象，然后具体的register逻辑就委托给该对象。BeanDefinitionDocumentReader是一个接口，这里使用的是Spring的默认实现类DefaultBeanDefinitionDocumentReader
 
 ```java
 @Override
@@ -297,7 +298,7 @@ protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate d
 }
 ```
 
-具体的逻辑都在`DefaultBeanDefinitionDocumentReader`对象中。这里讲解一下，主要是递归遍历节点，对不同的标签进行相应的解析，最后是解析`<Bean>`标签，每个`Bean`标签对应一个BeanDefinition对象。这里的标签解析同样会委托给一个delegate对象：
+具体的逻辑都在DefaultBeanDefinitionDocumentReader对象中。这里讲解一下，主要是递归遍历节点，对不同的标签进行相应的解析，最后是解析`<Bean>`标签，每个Bean标签对应一个BeanDefinition对象。这里的标签解析同样会委托给一个delegate对象：
 
 ```java
 protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
@@ -318,22 +319,19 @@ protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate d
 }
 ```
 
-调用`parseBeanDefinitionElement`进行解析，得到一个BeanDefinition的包装类对象`BeanDefinitionHolder`。解析完成后就是保存我们的beanDefintion对象，也就是注册。
+调用parseBeanDefinitionElement进行解析，得到一个BeanDefinition的包装类对象BeanDefinitionHolder。解析完成后就是保存我们的beanDefintion对象，也就是注册。
 
 ### BeanDefinition的注册
-
-注册是`BeanDefinitionReaderUtils.registerBeanDefinition`这个调用过程，这里的Registry对象其实就是我们的容器对象，该方法的内部其实还是通过调用Registry的`registerBeanDefinition`的方法来进行注册的。具体的实现在`DefaultListableBeanFacotry`中，逻辑很简单，就是讲BeanDefinition保存到Map中，这里就不做详述。
+注册是`BeanDefinitionReaderUtils.registerBeanDefinition()`这个调用过程，这里的Registry对象其实就是我们的容器对象，该方法的内部其实还是通过调用Registry的registerBeanDefinition的方法来进行注册的。具体的实现在DefaultListableBeanFacotry中，逻辑很简单，就是讲BeanDefinition保存到Map中，这里就不做详述。
 
 ### 容器初始化成功
 
-到这里容器大致就算初始化完成了，严格来说`refresh()`方法中还进行了很多参数及内部bean的初始化，比如'BeanFactoryPostProcessors'注册及调用, `BeanPostProcessors`注册等，这里我们先不考虑，只以最简单的容器的bean管理功能来看，这里容器算是初始化完成了。
+到这里容器大致就算初始化完成了，严格来说refresh()方法中还进行了很多参数及内部bean的初始化，比如'BeanFactoryPostProcessors'注册及调用, BeanPostProcessors注册等，这里我们先不考虑，只以最简单的容器的bean管理功能来看，这里容器算是初始化完成了。
 
 ## Bean的初始化
-
 不考虑lazy-init=false的情况，bean的初始化是在容器首次调用getBean触发的
 
 ### getBean()
-
 下面我们从DefaultListableBeanFactory的基类AbstractBeanFactory着手去看getBean的实现
 
 ```java
@@ -594,10 +592,10 @@ protected Object doCreateBean(final String beanName, final RootBeanDefinition mb
 }
 ```
 
-首先如果是单例的话，会先从缓存中获取，如果没有的话，最后会调用createBean创建，
+1. 首先如果是单例的话，会先从缓存中获取，如果没有的话，最后会调用createBean创建，
 
-createBean再调用*doCreateBean*，这里要注意，该方法是重点，包含了核心逻辑，下一篇我们会具体分析该方法。
+2. createBean再调用*doCreateBean*，这里要注意，该方法是重点，包含了核心逻辑，下一篇我们会具体分析该方法。
 
-创建完成后，首先会检查需不需要注册到容器中，同时return给调用端。Bean的初始化也就完成了。
+3. 创建完成后，首先会检查需不需要注册到容器中，同时return给调用端。Bean的初始化也就完成了。
 
 未完待续…...

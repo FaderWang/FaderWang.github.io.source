@@ -1,15 +1,17 @@
 ---
-title: Venus
+title: 轻量级爬虫框架Venus
 date: 2018-08-25 21:35:39
 tags: 
 - spider
 - framework
 categories: Java
 toc: true
-description: 轻量级爬虫框架Venus,基于组件的形式，可扩展。
 ---
 
-## 轻量级爬虫框架Venus
+> 有时候我们需要爬虫做一些小事情，比如爬取图片、下载资源等。这些工作很多步骤都是重复的，我们可以将它们抽取出来，写成公共组件。
+所以就有了该文的轻量级爬虫框架——Venus，基于组件的形式，可扩展。
+<!-- more -->
+
 ### 核心组件
 - **Downloader**(网页下载器)
 - **Spider**(爬虫处理器)
@@ -17,7 +19,6 @@ description: 轻量级爬虫框架Venus,基于组件的形式，可扩展。
 - **Parser**(网页解析器)
 - **Pipline**(数据处理器)
 - **Engine**(流转引擎)
-<!-- more -->
 
 ### 具体介绍
 #### Downloader
