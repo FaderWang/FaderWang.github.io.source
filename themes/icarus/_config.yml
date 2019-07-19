@@ -133,7 +133,7 @@ widgets:
         location: Shanghai·China
         # Path or URL to the avatar to be shown in the profile widget
         # avatar: https://ws1.sinaimg.cn/large/e3ea9f2dgy1g54537wz85j20qo0k00tg.jpg
-        avatar: https://ws1.sinaimg.cn/large/e3ea9f2dgy1g54xy72z91j23uw2klhdv.jpg
+        avatar: /images/yorkshire.jpg
         # Email address for the Gravatar to be shown in the profile widget
         gravatar: 
         # Whether to show avatar image rounded or square
